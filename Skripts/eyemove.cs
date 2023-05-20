@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class eyemove : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
+    public uint div = 10;
+    public GameObject Eyes;
     void Update()
     {
         
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition = mousePosition / div;
+        mousePosition.z = -3f;
+        Eyes.transform.position = mousePosition;
     }
 }
