@@ -7,20 +7,43 @@ public class Main : MonoBehaviour
 {
     bool IsSaying;
     bool IsFocus;
-    bool IsConsoleType;
+    bool Isconsoleactive = true;
     public float sayingsec;
     public TextMeshProUGUI Texttarget;
     public TextMeshProUGUI consoletext;
+    public GameObject eyes;
     public GameObject mouthop;
     public GameObject mouthcl;
     public GameObject mouthFoc;
     public GameObject Texttarg;
     public float interval = 0.1f;
 
-    IEnumerator OnType(string Say, bool isclear)
+    private void Update()
     {
-        if (isclear)
-            Texttarget.text = "";
+        if (Isconsoleactive)
+        {
+            Texttarg.SetActive(true);
+        }
+        else
+        {
+            Texttarg.SetActive(false);
+        }
+    }
+
+    IEnumerator OnTypeLine(string Say)
+    {
+        IsSaying = true;
+        foreach (char item in Say)
+        {
+            Texttarget.text += item;
+            yield return new WaitForSeconds(interval);
+        }
+        IsSaying = false;
+        yield return new WaitForSeconds(1f);
+        cls();
+    }
+    IEnumerator OnType(string Say)
+    {
         IsSaying = true;
         foreach (char item in Say)
         {
@@ -29,38 +52,25 @@ public class Main : MonoBehaviour
         }
         IsSaying = false;
     }
-    IEnumerator Isconsoletype()
-    {
-        while (true)
-        {
-            if (IsConsoleType)
-            {
-                while (IsConsoleType)
-                {
-                    Texttarg.SetActive(true);
-                }
-            }
-            else
-            {
-                yield return new WaitForSeconds(0.5f);
-                Texttarg.SetActive(false);
-                yield return new WaitForSeconds(0.5f);
-                Texttarg.SetActive(true);
-            }
-            yield return null;
-        }
-    }
     IEnumerator ConsoleOnType(string Say, bool isclear)
     {
         if (isclear)
             consoletext.text = "C:/ponopoyo.p>>> ";
-        IsConsoleType = true;
         foreach (char item in Say)
         {
             consoletext.text += item;
             yield return new WaitForSeconds(interval);
         }
-        IsConsoleType = false;
+        consolecls();
+    }
+
+    void consolecls()
+    {
+        consoletext.text = "C:/ponopoyo.p>>> ";
+    }
+    void cls()
+    {
+       Texttarget.text = "";
     }
     void Startset()
     {
@@ -77,22 +87,53 @@ public class Main : MonoBehaviour
             mouthcl.SetActive(false);
         }
     }
+
+
+    public void Eyemove(float posx, float posy, bool isadd)
+    {
+        Vector3 oldpos;
+
+        if (isadd)
+        {
+            oldpos = eyes.transform.position;
+            oldpos.x = oldpos.x + posx;
+            oldpos.y = oldpos.y + posy;
+            oldpos.z = -3;
+            eyes.transform.position = oldpos;
+        }
+        else
+        {
+            eyes.transform.position = new Vector3(posx, posy, -3);
+        }
+    }
     IEnumerator consoletypein()
     {
-        StartCoroutine(ConsoleOnType("start main texts", false));
-        yield return null;
+        yield return StartCoroutine(ConsoleOnType(" start main texts", false));
+        yield return new WaitForSeconds(4);
+        yield return StartCoroutine(ConsoleOnType(" set ponopoyo.p = {GetReturnposComset}comp. <132059161928739587192837>", false));
+        yield return new WaitForSeconds(4);
     }
+
     IEnumerator Maintext()
     {
         IsFocus = true;
-        yield return new WaitForSeconds(3f);
-        StartCoroutine(OnType("오 드디어 내 속이 가득찬 이 기분", false));
-
+        yield return new WaitForSeconds(3);
+        yield return StartCoroutine(OnTypeLine("오 드디어 내 내장이 가득찬 이 기분"));
+        yield return new WaitForSeconds(2);
+        yield return StartCoroutine(OnTypeLine("음 이건 좀 어렵네"));
+        yield return new WaitForSeconds(2);
+        Isconsoleactive = false;
+        yield return StartCoroutine(OnType("어어..."));
+        yield return new WaitForSeconds(1);
+        yield return StartCoroutine(OnType(" 그냥 어,,,"));
+        cls();
+        yield return new WaitForSeconds(1);
     }
     void Start()
     {
-        StartCoroutine(Isconsoletype());
+        Eyemove(-70, 60, false);
         StartCoroutine(Saying());
+        StartCoroutine(consoletypein());
         StartCoroutine(Maintext());
         Startset();
     }

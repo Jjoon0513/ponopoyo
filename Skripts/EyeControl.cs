@@ -6,6 +6,7 @@ public class EyeControl : MonoBehaviour
 {
     public GameObject EyeBrows;
     public GameObject EyeCover;
+    public GameObject Eyes;
     IEnumerator Main()
     {
         while (true)
@@ -24,12 +25,14 @@ public class EyeControl : MonoBehaviour
         {
             EyeCover.SetActive(true);
             EyeBrows.SetActive(false);
+            Eyes.SetActive(true);
             print("open");
         }
         else
         {
             EyeCover.SetActive(false);
             EyeBrows.SetActive(true);
+            Eyes.SetActive(false);
             print("close");
         }
     }
