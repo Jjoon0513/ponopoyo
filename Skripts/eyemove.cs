@@ -8,7 +8,6 @@ public class eyemove : MonoBehaviour
     public GameObject Eyes;
     void Update()
     {
-        
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePosition = mousePosition / div;
         mousePosition.z = -3f;

@@ -42,11 +42,14 @@ public class Main : MonoBehaviour
 
     IEnumerator Saying()
     {
+        while (true)
+        {
             if (IsSaying)
             {
                 mouthop.SetActive(false);
                 mouthFoc.SetActive(false);
                 mouthcl.SetActive(false);
+
                 if (IsFocus)
                 {
                     while (IsSaying)
@@ -71,12 +74,14 @@ public class Main : MonoBehaviour
                         yield return new WaitForSeconds(1f);
                     }
                 }
+
                 mouthop.SetActive(true);
                 mouthFoc.SetActive(false);
                 mouthcl.SetActive(false);
             }
 
-
+            yield return null;
+        }
     }
 
 }

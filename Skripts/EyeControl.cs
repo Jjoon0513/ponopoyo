@@ -6,7 +6,6 @@ public class EyeControl : MonoBehaviour
 {
     public GameObject EyeBrows;
     public GameObject EyeCover;
-
     IEnumerator Main()
     {
         while (true)
