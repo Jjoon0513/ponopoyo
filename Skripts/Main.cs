@@ -7,37 +7,52 @@ public class Main : MonoBehaviour
 {
     bool IsSaying;
     bool IsFocus;
+    public float sayingsec;
     public TextMeshProUGUI Texttarget;
     public GameObject mouthop;
     public GameObject mouthcl;
     public GameObject mouthFoc;
+    public GameObject Texttarg;
 
-    IEnumerator OnType(float interval, string Say, bool isfocus)
+    IEnumerator OnType(float interval, string Say, bool isclear)
     {
+        if (isclear)
+            Texttarget.text = "";
         IsSaying = true;
-        if (isfocus)
-        {
-            IsFocus = true;
-        }
         foreach (char item in Say)
         {
             Texttarget.text += item;
             yield return new WaitForSeconds(interval);
         }
-        IsFocus = false;
         IsSaying = false;
     }
-
+    void Startset()
+    {
+        if (IsFocus)
+        {
+            mouthop.SetActive(false);
+            mouthFoc.SetActive(true);
+            mouthcl.SetActive(false);
+        }
+        else
+        {
+            mouthop.SetActive(true);
+            mouthFoc.SetActive(false);
+            mouthcl.SetActive(false);
+        }
+    }
     IEnumerator Maintext()
     {
+        IsFocus = true;
         yield return new WaitForSeconds(3f);
-        StartCoroutine(OnType(0.1f, "오 드디어 내 속이 가득찬 이 기분", true));
+        StartCoroutine(OnType(0.1f, "오 드디어 내 속이 가득찬 이 기분", false));
 
     }
     void Start()
     {
         StartCoroutine(Saying());
         StartCoroutine(Maintext());
+        Startset();
     }
 
     IEnumerator Saying()
@@ -46,9 +61,9 @@ public class Main : MonoBehaviour
         {
             if (IsSaying)
             {
-                mouthop.SetActive(false);
-                mouthFoc.SetActive(false);
-                mouthcl.SetActive(false);
+                    mouthop.SetActive(false);
+                    mouthFoc.SetActive(false);
+                    mouthcl.SetActive(false);
 
                 if (IsFocus)
                 {
@@ -56,10 +71,10 @@ public class Main : MonoBehaviour
                     {
                         mouthFoc.SetActive(false);
                         mouthcl.SetActive(true);
-                        yield return new WaitForSeconds(1f);
+                        yield return new WaitForSeconds(sayingsec);
                         mouthFoc.SetActive(true);
                         mouthcl.SetActive(false);
-                        yield return new WaitForSeconds(1f);
+                        yield return new WaitForSeconds(sayingsec);
                     }
                 }
                 else
@@ -68,16 +83,25 @@ public class Main : MonoBehaviour
                     {
                         mouthop.SetActive(false);
                         mouthcl.SetActive(true);
-                        yield return new WaitForSeconds(1f);
+                        yield return new WaitForSeconds(sayingsec);
                         mouthop.SetActive(true);
                         mouthcl.SetActive(false);
-                        yield return new WaitForSeconds(1f);
+                        yield return new WaitForSeconds(sayingsec);
                     }
                 }
+                if (IsFocus)
+                {
+                    mouthop.SetActive(false);
+                    mouthFoc.SetActive(true);
+                    mouthcl.SetActive(false);
+                }
+                else
+                {
+                    mouthop.SetActive(true);
+                    mouthFoc.SetActive(false);
+                    mouthcl.SetActive(false);
+                }
 
-                mouthop.SetActive(true);
-                mouthFoc.SetActive(false);
-                mouthcl.SetActive(false);
             }
 
             yield return null;
