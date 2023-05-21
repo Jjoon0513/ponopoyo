@@ -7,14 +7,17 @@ public class Main : MonoBehaviour
 {
     bool IsSaying;
     bool IsFocus;
+    bool IsConsoleType;
     public float sayingsec;
     public TextMeshProUGUI Texttarget;
+    public TextMeshProUGUI consoletext;
     public GameObject mouthop;
     public GameObject mouthcl;
     public GameObject mouthFoc;
     public GameObject Texttarg;
+    public float interval = 0.1f;
 
-    IEnumerator OnType(float interval, string Say, bool isclear)
+    IEnumerator OnType(string Say, bool isclear)
     {
         if (isclear)
             Texttarget.text = "";
@@ -25,6 +28,39 @@ public class Main : MonoBehaviour
             yield return new WaitForSeconds(interval);
         }
         IsSaying = false;
+    }
+    IEnumerator Isconsoletype()
+    {
+        while (true)
+        {
+            if (IsConsoleType)
+            {
+                while (IsConsoleType)
+                {
+                    Texttarg.SetActive(true);
+                }
+            }
+            else
+            {
+                yield return new WaitForSeconds(0.5f);
+                Texttarg.SetActive(false);
+                yield return new WaitForSeconds(0.5f);
+                Texttarg.SetActive(true);
+            }
+            yield return null;
+        }
+    }
+    IEnumerator ConsoleOnType(string Say, bool isclear)
+    {
+        if (isclear)
+            consoletext.text = "C:/ponopoyo.p>>> ";
+        IsConsoleType = true;
+        foreach (char item in Say)
+        {
+            consoletext.text += item;
+            yield return new WaitForSeconds(interval);
+        }
+        IsConsoleType = false;
     }
     void Startset()
     {
@@ -41,15 +77,21 @@ public class Main : MonoBehaviour
             mouthcl.SetActive(false);
         }
     }
+    IEnumerator consoletypein()
+    {
+        StartCoroutine(ConsoleOnType("start main texts", false));
+        yield return null;
+    }
     IEnumerator Maintext()
     {
         IsFocus = true;
         yield return new WaitForSeconds(3f);
-        StartCoroutine(OnType(0.1f, "오 드디어 내 속이 가득찬 이 기분", false));
+        StartCoroutine(OnType("오 드디어 내 속이 가득찬 이 기분", false));
 
     }
     void Start()
     {
+        StartCoroutine(Isconsoletype());
         StartCoroutine(Saying());
         StartCoroutine(Maintext());
         Startset();
