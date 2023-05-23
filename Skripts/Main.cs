@@ -32,6 +32,7 @@ public class Main : MonoBehaviour
 
     IEnumerator OnTypeLine(string Say)
     {
+        cls();
         IsSaying = true;
         foreach (char item in Say)
         {
@@ -40,7 +41,6 @@ public class Main : MonoBehaviour
         }
         IsSaying = false;
         yield return new WaitForSeconds(1f);
-        cls();
     }
     IEnumerator OnType(string Say)
     {
@@ -87,51 +87,95 @@ public class Main : MonoBehaviour
             mouthcl.SetActive(false);
         }
     }
-
-
-    public void Eyemove(float posx, float posy, bool isadd)
+    public string ambassador(uint group, uint num)
     {
-        Vector3 oldpos;
-
-        if (isadd)
+        if (group == 1)
         {
-            oldpos = eyes.transform.position;
-            oldpos.x = oldpos.x + posx;
-            oldpos.y = oldpos.y + posy;
-            oldpos.z = -3;
-            eyes.transform.position = oldpos;
+            switch (num)
+            {
+                case 1:
+                    return " start main texts";
+                case 2:
+                    return " set ponopoyo.p = {GetReturnposComset}comp. <132059161928739587192837>";
+            }
         }
-        else
+        else if (group == 2)
         {
-            eyes.transform.position = new Vector3(posx, posy, -3);
+            switch (num)
+            {
+                case 1:
+                    return "오 드디어 내 내장이 가득찬 이 기분";
+                case 2:
+                    return "음 이건 좀 어렵네";
+                case 3:
+                    return "어어...";
+                case 4:
+                    return " 그냥 어,,,";
+            }
         }
+        return null;
     }
-    IEnumerator consoletypein()
-    {
-        yield return StartCoroutine(ConsoleOnType(" start main texts", false));
-        yield return new WaitForSeconds(4);
-        yield return StartCoroutine(ConsoleOnType(" set ponopoyo.p = {GetReturnposComset}comp. <132059161928739587192837>", false));
-        yield return new WaitForSeconds(4);
-    }
-
     IEnumerator Maintext()
     {
         IsFocus = true;
         yield return new WaitForSeconds(3);
-        yield return StartCoroutine(OnTypeLine("오 드디어 내 내장이 가득찬 이 기분"));
+        yield return StartCoroutine(OnTypeLine(ambassador(2, 1)));
+        Eyemove("Diagonal Left Up");
         yield return new WaitForSeconds(2);
-        yield return StartCoroutine(OnTypeLine("음 이건 좀 어렵네"));
+        yield return StartCoroutine(OnTypeLine(ambassador(2, 2)));
         yield return new WaitForSeconds(2);
         Isconsoleactive = false;
-        yield return StartCoroutine(OnType("어어..."));
+        yield return new WaitForSeconds(3);
+        yield return StartCoroutine(OnType(ambassador(2, 3)));
         yield return new WaitForSeconds(1);
-        yield return StartCoroutine(OnType(" 그냥 어,,,"));
+        yield return StartCoroutine(OnType(ambassador(2, 4)));
         cls();
         yield return new WaitForSeconds(1);
     }
+    public void Eyemove(string position)
+    {
+        switch (position)
+        {
+            case "Diagonal Left Up":
+                eyes.transform.position = new Vector3(-70, 60, -3);
+                break;
+            case "Up":
+                eyes.transform.position = new Vector3(0, 30, -3);
+                break;
+            case "Diagonal Right Up":
+                eyes.transform.position = new Vector3(60, 10, -3);
+                break;
+            case "Front":
+                eyes.transform.position = new Vector3(0, 0, -3);
+                break;
+            case "Diagonal Right Down":
+                eyes.transform.position = new Vector3(-70, 60, -3);
+                break;
+            case "Down":
+                eyes.transform.position = new Vector3(-10, -70, -3);
+                break;
+            case "Diagonal Left Down":
+                eyes.transform.position = new Vector3(70, -60, -3);
+                break;
+            case "Left":
+                eyes.transform.position = new Vector3(-90, 20, -3);
+                break;
+            case "Right":
+                eyes.transform.position = new Vector3(90, -20, -3);
+                break;
+        }
+    }
+    IEnumerator consoletypein()
+    {
+        yield return StartCoroutine(ConsoleOnType(ambassador(1, 1), false));
+        yield return new WaitForSeconds(4);
+        yield return StartCoroutine(ConsoleOnType(ambassador(1, 2), false));
+        yield return new WaitForSeconds(4);
+    }
+
+
     void Start()
     {
-        Eyemove(-70, 60, false);
         StartCoroutine(Saying());
         StartCoroutine(consoletypein());
         StartCoroutine(Maintext());
