@@ -118,14 +118,14 @@ public class Main : MonoBehaviour
     {
         IsFocus = true;
         yield return new WaitForSeconds(3);
-        yield return StartCoroutine(OnTypeLine("¿À µåµğ¾î ³» ³»ÀåÀÌ °¡µæÂù ÀÌ ±âºĞ"));
+        yield return StartCoroutine(OnTypeLine("ì˜¤ ë“œë””ì–´ ë‚´ ë‚´ì¥ì´ ê°€ë“ì°¬ ì´ ê¸°ë¶„"));
         yield return new WaitForSeconds(2);
-        yield return StartCoroutine(OnTypeLine("À½ ÀÌ°Ç Á» ¾î·Æ³×"));
+        yield return StartCoroutine(OnTypeLine("ìŒ ì´ê±´ ì¢€ ì–´ë µë„¤"));
         yield return new WaitForSeconds(2);
         Isconsoleactive = false;
-        yield return StartCoroutine(OnType("¾î¾î..."));
+        yield return StartCoroutine(OnType("ì–´ì–´..."));
         yield return new WaitForSeconds(1);
-        yield return StartCoroutine(OnType(" ±×³É ¾î,,,"));
+        yield return StartCoroutine(OnType(" ê·¸ëƒ¥ ì–´..."));
         cls();
         yield return new WaitForSeconds(1);
     }
