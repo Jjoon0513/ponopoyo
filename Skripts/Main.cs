@@ -104,13 +104,13 @@ public class Main : MonoBehaviour
             switch (num)
             {
                 case 1:
-                    return "�� ������ �� ������ ������ �� ����";
+                    return "오 드디어 내 내장이 가득찬 이 기분";
                 case 2:
-                    return "�� �̰� �� ���Ƴ�";
+                    return "음 이건 좀 어렵네";
                 case 3:
-                    return "����...";
+                    return "어어...";
                 case 4:
-                    return " �׳� ��,,,";
+                    return "그냥 어,,,";
             }
         }
         return null;
