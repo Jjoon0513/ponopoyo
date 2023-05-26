@@ -32,7 +32,7 @@ public class Main : MonoBehaviour
 
     IEnumerator OnTypeLine(string Say)
     {
-        cls();
+        Cls();
         IsSaying = true;
         foreach (char item in Say)
         {
@@ -52,23 +52,22 @@ public class Main : MonoBehaviour
         }
         IsSaying = false;
     }
-    IEnumerator ConsoleOnType(string Say, bool isclear)
+    IEnumerator ConsoleOnType(string Say, bool isclear = false)
     {
-        if (isclear)
-            consoletext.text = "C:/ponopoyo.p>>> ";
+        if (isclear) consoletext.text = "C:/ponopoyo.p>>> ";
         foreach (char item in Say)
         {
             consoletext.text += item;
             yield return new WaitForSeconds(interval);
         }
-        consolecls();
+        Consolecls();
     }
 
-    void consolecls()
+    void Consolecls()
     {
         consoletext.text = "C:/ponopoyo.p>>> ";
     }
-    void cls()
+    void Cls()
     {
        Texttarget.text = "";
     }
@@ -87,7 +86,7 @@ public class Main : MonoBehaviour
             mouthcl.SetActive(false);
         }
     }
-    public string ambassador(uint group, uint num)
+    public string Ambassador(uint group, uint num)
     {
         if (group == 1)
         {
@@ -110,7 +109,7 @@ public class Main : MonoBehaviour
                 case 3:
                     return "어어...";
                 case 4:
-                    return "그냥 어,,,";
+                    return "그냥 어...";
             }
         }
         return null;
@@ -119,20 +118,25 @@ public class Main : MonoBehaviour
     {
         IsFocus = true;
         yield return new WaitForSeconds(3);
-        yield return StartCoroutine(OnTypeLine(ambassador(2, 1)));
-        Eyemove("Diagonal Left Up");
+        yield return StartCoroutine(OnTypeLine(Ambassador(2, 1)));
+        
         yield return new WaitForSeconds(2);
-        yield return StartCoroutine(OnTypeLine(ambassador(2, 2)));
+        yield return StartCoroutine(OnTypeLine(Ambassador(2, 2)));
         yield return new WaitForSeconds(2);
         Isconsoleactive = false;
-        yield return new WaitForSeconds(3);
-        yield return StartCoroutine(OnType(ambassador(2, 3)));
+        Eyemove();
+        yield return new WaitForSeconds(2);
+        StartCoroutine(OnTypeLine(Ambassador(2, 3)));
         yield return new WaitForSeconds(1);
-        yield return StartCoroutine(OnType(ambassador(2, 4)));
-        cls();
+        Eyemove("Left");
         yield return new WaitForSeconds(1);
+        Eyemove("Right");
+        yield return new WaitForSeconds(1);
+        yield return StartCoroutine(OnType(Ambassador(2, 4)));
+        yield return new WaitForSeconds(1);
+        Eyemove();
     }
-    public void Eyemove(string position)
+    public void Eyemove(string position = "Front")
     {
         switch (position)
         {
@@ -165,19 +169,20 @@ public class Main : MonoBehaviour
                 break;
         }
     }
-    IEnumerator consoletypein()
+    IEnumerator Consoletypein()
     {
-        yield return StartCoroutine(ConsoleOnType(ambassador(1, 1), false));
+        yield return StartCoroutine(ConsoleOnType(Ambassador(1, 1)));
         yield return new WaitForSeconds(4);
-        yield return StartCoroutine(ConsoleOnType(ambassador(1, 2), false));
+        yield return StartCoroutine(ConsoleOnType(Ambassador(1, 2)));
         yield return new WaitForSeconds(4);
     }
 
 
     void Start()
     {
+        Eyemove("Diagonal Left Up");
         StartCoroutine(Saying());
-        StartCoroutine(consoletypein());
+        StartCoroutine(Consoletypein());
         StartCoroutine(Maintext());
         Startset();
     }
